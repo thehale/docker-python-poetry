@@ -1,0 +1,25 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+  DOCKER_REGISTRY: ${{secrets.DOCKER_REGISTRY}}
+  DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+  DOCKER_ACCESS_TOKEN: ${{secrets.DOCKER_ACCESS_TOKEN}}
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker Image
+      run: make build
+    - name: Login to DockerHub
+      run: echo -n $DOCKER_ACCESS_TOKEN | docker login $DOCKER_REGISTRY -u $DOCKER_USERNAME --password-stdin 
+    - name: Push Image to DockerHub
+      run: docker push jhale1805/python-poetry:1.1.13-py3.8.13-slim

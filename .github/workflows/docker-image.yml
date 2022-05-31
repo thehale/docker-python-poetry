@@ -22,4 +22,26 @@ jobs:
     - name: Login to DockerHub
       run: echo -n $DOCKER_ACCESS_TOKEN | docker login $DOCKER_REGISTRY -u $DOCKER_USERNAME --password-stdin 
     - name: Push Image to DockerHub
-      run: docker push jhale1805/python-poetry:1.1.13-py3.8.13-slim
+      run: docker push jhale1805/python-poetry:latest
+
+
+  build-versions:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python_image_tag: ["3.7-slim", "3.8-slim", "3.9-slim", "3.10-slim"]
+        poetry_version: ["1.0.10", "1.1.13"]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker Image
+      run: >
+        make build-version \
+          POETRY_VERSION=${{ matrix.poetry_version }} \
+          PYTHON_IMAGE_TAG=${{ matrix.python_image_tag }}
+    - name: Login to DockerHub
+      run: echo -n $DOCKER_ACCESS_TOKEN | docker login $DOCKER_REGISTRY -u $DOCKER_USERNAME --password-stdin 
+    - name: Push Image to DockerHub
+      run: docker push jhale1805/python-poetry:${{ matrix.poetry_version }}-py${{ matrix.python_image_tag }}

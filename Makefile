@@ -3,14 +3,18 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-POETRY_VERSION=1.1.13
-PYTHON_IMAGE_TAG=3.8.13-slim
 build:
 	docker build \
-		--build-arg POETRY_VERSION=$(POETRY_VERSION) \
-		--build-arg PYTHON_IMAGE_TAG=$(PYTHON_IMAGE_TAG) \
-		--tag jhale1805/python-poetry:$(POETRY_VERSION)-py$(PYTHON_IMAGE_TAG) \
+		--tag jhale1805/python-poetry:latest \
+		--build-arg BUILDKIT_INLINE_CACHE=1 \
+		--cache-from jhale1805/python-poetry:latest \
 		.
 
-run:
-	docker run --rm --name poetry poetry poetry --version
+build-version:
+	docker build \
+		--tag jhale1805/python-poetry:$(POETRY_VERSION)-py$(PYTHON_IMAGE_TAG) \
+		--build-arg POETRY_VERSION=$(POETRY_VERSION) \
+		--build-arg PYTHON_IMAGE_TAG=$(PYTHON_IMAGE_TAG) \
+		--build-arg BUILDKIT_INLINE_CACHE=1 \
+		--cache-from jhale1805/python-poetry:$(POETRY_VERSION)-py$(PYTHON_IMAGE_TAG) \
+		.

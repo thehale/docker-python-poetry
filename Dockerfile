@@ -3,14 +3,15 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-
-ARG PYTHON_IMAGE_TAG=3.8.13-slim
+# Default to the latest slim version of Python
+ARG PYTHON_IMAGE_TAG=slim
 
 ###############################################################################
 # POETRY BASE IMAGE - Provides environment variables for poetry
 ###############################################################################
 FROM python:${PYTHON_IMAGE_TAG} AS python-poetry-base
-ARG POETRY_VERSION=1.1.13
+# Default to the latest version of Poetry
+ARG POETRY_VERSION=""
 
 ENV POETRY_VERSION=${POETRY_VERSION}
 ENV POETRY_HOME="/opt/poetry"

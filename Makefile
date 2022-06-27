@@ -5,16 +5,16 @@
 
 build:
 	docker build \
-		--tag jhale1805/python-poetry:latest \
+		--tag thehale/python-poetry:latest \
 		--build-arg BUILDKIT_INLINE_CACHE=1 \
-		--cache-from jhale1805/python-poetry:latest \
+		--cache-from thehale/python-poetry:latest \
 		.
 
 build-version:
 	docker build \
-		--tag jhale1805/python-poetry:$(POETRY_VERSION)-py$(PYTHON_IMAGE_TAG) \
+		--tag thehale/python-poetry:$(POETRY_VERSION)-py$(PYTHON_IMAGE_TAG) \
 		--build-arg POETRY_VERSION=$(POETRY_VERSION) \
 		--build-arg PYTHON_IMAGE_TAG=$(PYTHON_IMAGE_TAG) \
 		--build-arg BUILDKIT_INLINE_CACHE=1 \
-		--cache-from jhale1805/python-poetry:$(POETRY_VERSION)-py$(PYTHON_IMAGE_TAG) \
+		--cache-from thehale/python-poetry:$(POETRY_VERSION)-py$(PYTHON_IMAGE_TAG) \
 		.

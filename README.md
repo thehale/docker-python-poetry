@@ -5,6 +5,13 @@
  https://opensource.org/licenses/MIT
 -->
 # [Python Poetry](https://github.com/python-poetry/poetry) in Docker
+
+<!-- BADGES -->
+[![](https://badgen.net/docker/pulls/thehale/python-poetry)](https://hub.docker.com/r/thehale/python-poetry)
+[![](https://badgen.net/github/license/thehale/docker-python-poetry)](https://github.com/thehale/docker-python-poetry/blob/master/LICENSE)
+[![](https://badgen.net/badge/icon/Sponsor/pink?icon=github&label)](https://github.com/sponsors/thehale)
+[![](https://badgen.net/badge/icon/Follow%20@jhaledev/1DA1F2?icon=twitter&label)](https://twitter.com/intent/user?screen_name=jhaledev)
+
 Robust, lightweight, configurable `python-poetry` Docker images for any use
 case.
 
@@ -45,3 +52,7 @@ make build-version \
     POETRY_VERSION="1.1.13" \
     PYTHON_IMAGE_TAG="3.10-slim"
 ```
+
+## License
+
+This project is licensed under the terms of the [MIT License](https://choosealicense.com/licenses/mit/).

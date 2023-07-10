@@ -24,6 +24,8 @@ jobs:
       run: echo -n $DOCKER_ACCESS_TOKEN | docker login $DOCKER_REGISTRY -u $DOCKER_USERNAME --password-stdin 
     - name: Push Image to DockerHub
       run: docker push thehale/python-poetry:latest
+    - name: Tag the image for the GitHub Container Registry
+      run: docker tag thehale/python-poetry:latest ghcr.io/thehale/python-poetry:latest
     - name: Login to GitHub Container Registry
       run: echo -n ${{ secrets.GITHUB_TOKEN }} | docker login $GITHUB_CONTAINER_REGISTRY -u ${{ github.actor }} --password-stdin 
     - name: Push Image to GitHub Container Registry
@@ -51,6 +53,8 @@ jobs:
     - name: Push Image to DockerHub
       run: docker push thehale/python-poetry:${{ matrix.poetry_version }}-py${{ matrix.python_image_tag }}
     - name: Login to GitHub Container Registry
-      run: echo -n ${{ secrets.GITHUB_TOKEN }} | docker login $GITHUB_CONTAINER_REGISTRY -u ${{ github.actor }} --password-stdin 
+      run: echo -n ${{ secrets.GITHUB_TOKEN }} | docker login $GITHUB_CONTAINER_REGISTRY -u ${{ github.actor }} --password-stdin
+    - name: Tag the image for the GitHub Container Registry
+      run: docker tag thehale/python-poetry:${{ matrix.poetry_version }}-py${{ matrix.python_image_tag }} ghcr.io/thehale/python-poetry:${{ matrix.poetry_version }}-py${{ matrix.python_image_tag }}
     - name: Push Image to GitHub Container Registry
       run: docker push ghcr.io/thehale/python-poetry:${{ matrix.poetry_version }}-py${{ matrix.python_image_tag }}

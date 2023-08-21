@@ -38,7 +38,7 @@ jobs:
 
     strategy:
       matrix:
-        python_image_tag: ["3.7-slim", "3.8-slim", "3.9-slim", "3.10-slim", "3.11-slim"]
+        python_image_tag: ["3.8-slim", "3.9-slim", "3.10-slim", "3.11-slim"]
         poetry_version: ["1.5.1", "1.6.0"]
 
     steps:

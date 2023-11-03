@@ -24,6 +24,8 @@ Most of the time, you will be using these images as a base image for your own
 Dockerfiles (e.g. devcontainers, building Python applications, etc.)
 ```Dockerfile
 FROM thehale/python-poetry
+
+RUN poetry --version
 # Your build steps here.
 ```
 

@@ -37,3 +37,10 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ###############################################################################
 FROM python-poetry-base AS python-poetry
 COPY --from=python-poetry-builder $POETRY_HOME $POETRY_HOME
+
+###############################################################################
+# POETRY RUNTIME IMAGE - Add a 'nonroot' unprivileged user to run the apps
+###############################################################################
+# Add the non-root user with UID/GID 1000:1000
+RUN groupadd --gid 1000 nonroot \
+    && useradd --uid 1000 --gid 1000 --no-create-home --shell /bin/bash nonroot

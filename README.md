@@ -63,9 +63,68 @@ make build-version \
     PYTHON_IMAGE_TAG="3.10-slim"
 ```
 
-This image will also defined an unprivileged 'nonroot' user with UID:GID 1000:1000 to be used in your derived
-images with the USER directive and run your apps more safely. In this case of course remeber to assign the
-corresponding ownership to your application tree.
+## Non-root User
+
+> [!NOTE]
+>
+> This section was adapted from the Node.js docs for [**Non-root
+> user**](https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user)
+> in their Docker images.
+
+
+By default, Docker runs commands inside the container as root which violates the [Principle of Least Privilege (PoLP)](https://en.wikipedia.org/wiki/Principle_of_least_privilege) when superuser permissions are not strictly required. You want to run the container as an unprivileged user whenever possible. The nonroot images provide the `nonroot` user for such purpose. The Docker Image can then be run with the `nonroot` user in the following way:
+
+```
+-u "nonroot"
+```
+
+Alternatively, the user can be activated in the `Dockerfile`:
+
+```Dockerfile
+FROM thehale/python-poetry:1.8.3
+...
+# At the end, set the user to use when running this image
+USER nonroot
+```
+
+> [!TIP] 
+>
+> When using the `nonroot` user, remember to assign the corresponding ownership
+> to your application tree (e.g. `chmod`).
+
+Note that the `nonroot` user is neither a build-time nor a run-time dependency
+and it can be removed or altered, as long as the functionality of the
+application you want to add to the container does not depend on it.
+
+If you do not want nor need the user created in this image, you can remove it with the following:
+
+```Dockerfile
+# For debian based images use:
+RUN userdel -r nonroot
+
+# For alpine based images use:
+RUN deluser --remove-home nonroot
+```
+
+If you need to change the uid/gid of the user, you can use:
+
+```Dockerfile
+RUN groupmod -g 999 nonroot && usermod -u 999 -g 999 nonroot
+```
+
+If you need another name for the user (ex. `myapp`), execute:
+
+```Dockerfile
+RUN usermod -d /home/myapp -l myapp nonroot
+```
+
+For alpine based images, you do not have `groupmod` nor `usermod`, so to change the uid/gid you have to delete the previous user:
+
+```Dockerfile
+RUN deluser --remove-home nonroot \
+  && addgroup -S nonroot -g 999 \
+  && adduser -S -G nonroot -u 999 nonroot
+```
 
 ## License
 
